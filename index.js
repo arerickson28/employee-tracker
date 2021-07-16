@@ -1,16 +1,22 @@
 const inquirer = require('inquirer');
 const { connectableObservableDescriptor } = require('rxjs/internal/observable/ConnectableObservable');
-// const table = require('console.table') ;
-// const db = require('./db');
+const table = require('console.table') ;
+const DB = require('./db/index.js');
 // const { inherits } = require('util');
-// const { listenerCount } = require('./db/connection');
+// const { listenerCount } = require('./db/connection.js');
+
+// const db = new DB(require('./db/connection.js'))
+
 
 
 function init() {
-    console.log("logo text in gif is it a requirement?")
-    // call function to load prompts
-
     const logo = require('asciiart-logo');
+    const config = require('./package.json');
+    console.log(logo(config).render());
+    // call function to load prompts
+    loadPrompt();
+
+    
     //
 }
 
@@ -49,7 +55,7 @@ function loadPrompt() {
                     break;
 
                 case "view employees":
-                    console.log("pikachu")
+                    console.table(db.findAllEmp)
                     break;
 
                 case "update employee roles":
@@ -73,11 +79,12 @@ function loadPrompt() {
                     break;
     
                 case "delete employees":
-                    console.log("pikachu");                      break;
+                    console.log("pikachu");
+                    break;
 
                 case "view budget utilization by department":
                     console.log("whoohoo")
-                    break
+                    break;
             }
 
          
@@ -87,5 +94,6 @@ function loadPrompt() {
     
 }
 
-loadPrompt();
+// loadPrompt();
+init();
 

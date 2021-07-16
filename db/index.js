@@ -1,9 +1,9 @@
 // querries here
-const connection = require('connection.js')
+const connection = require('./connection.js')
 
 class DB {
     constructor (connection) {
-        this.connection = connection ;
+        this.connection = connection
     }
 
     //methods!
@@ -11,9 +11,14 @@ class DB {
     // route to find all emplyees and returns them
     
     findAllEmp() {
+        const query = "SELECT * from employee"
         return this.connection.query(
-            "SELECT * from TABLE"
-        )
+            query, function (err, result, fields) {
+                if (err) throw err;
+                return result;
+            })
     }
     // 
 }
+
+module.exports = DB ;
