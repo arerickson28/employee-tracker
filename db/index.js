@@ -26,6 +26,19 @@ class Hogwarts {
         })
     }
 
+    getAllDep() {
+        const query = "SELECT * FROM department"
+        this.connection.query(query, function (err, result) {
+            if (err) throw err;
+            result.map((response) => {
+                return {
+                    name: response.department_name,
+                    value: response.id,
+                }
+            })
+        })
+    }
+
     viewAllRole() {
         const query = "SELECT * FROM role"
         this.connection.query(query, function (err, result) {
@@ -44,18 +57,18 @@ class Hogwarts {
         })
     }
 
-    addRole(title, salary, dep_name) {
+    addRole(title, salary, department_id) {
 
-        function getDepID(dep_name) {
-            const query = `SELECT id FROM department WHERE department_name = "${dep_name}"`
-            this.connection.query(query, function (err, result) {
-                if (err) throw err;
-                return result
-            })
-        }
+        // function getDepID(dep_name) {
+        //     const query = `SELECT id FROM department WHERE department_name = "${dep_name}"`
+        //     this.connection.query(query, function (err, result) {
+        //         if (err) throw err;
+        //         return result
+        //     })
+        // }
 
 
-        const query = `INSERT INTO role (title, salary, department_id) VALUES ("${title}", "${salary}", "${getDepID(dep_name)}")`
+        const query = `INSERT INTO role (title, salary, department_id) VALUES ("${title}", "${salary}", "${getDepID(department_id)}")`
         this.connection.query(query, function (err, result) {
             if (err) throw err;
             //For loop here 

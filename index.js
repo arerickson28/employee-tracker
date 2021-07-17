@@ -54,8 +54,29 @@ function loadPrompt() {
                     break;
 
                 case "add roles":
-                    console.log("pikachu")
-                    loadPrompt()
+                    inquirer.prompt([
+                        {
+                            type: "input",
+                            message: "What is the title of this role?",
+                            name: "roleTitle"
+                        },
+                        {
+                            type: "input",
+                            message: "What is the salary for this role?",
+                            name: "roleSalary"
+                        },
+                        {
+                            type: "list",
+                            message: "For which department would you like to add this role?",
+                            name: "roleDep",
+                            choices: hogDB.getAllDep()
+                        }
+                    ]).then( data => {
+                        hogDB.addRole(data.roleTitle, data.roleSalary, data.roleDep)
+                        // loadPrompt()
+                    })
+                
+                    
                     break;
 
                 case "add employees":
