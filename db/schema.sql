@@ -21,7 +21,7 @@ CREATE TABLE `role` (
 
 CREATE TABLE `department` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
-  `name` varchar(30)
+  `department_name` varchar(30)
 );
 
 ALTER TABLE `role` ADD FOREIGN KEY (`department_id`) REFERENCES `department` (`id`);

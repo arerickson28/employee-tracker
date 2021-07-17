@@ -1,6 +1,4 @@
 // querries here
-// const connection = require('./connection.js')
-
 class Hogwarts {
     constructor (connection) {
         this.connection = connection
@@ -14,25 +12,55 @@ class Hogwarts {
         const query = "SELECT * FROM employee"
         this.connection.query(query, function (err, result) {
                 if (err) throw err;
-                return result;
-        // return "Avatar the last airbender"
+                //For loop here 
+                console.table(result);
         })
     }
 
     viewAllDep() {
-        const querie = "SELECT * FROM department"
+        const query = "SELECT * FROM department"
+        this.connection.query(query, function (err, result) {
+            if (err) throw err;
+            //For loop here 
+            console.table(result);
+        })
     }
 
     viewAllRole() {
-        const querie = "SELECT * FROM role"
+        const query = "SELECT * FROM role"
+        this.connection.query(query, function (err, result) {
+            if (err) throw err;
+            //For loop here 
+            console.table(result);
+        })
     }
 
-    addDep() {
-
+    addDep(newDep) {
+        const query = `INSERT INTO department (department_name) VALUES ("${newDep}")`
+        this.connection.query(query, function (err, result) {
+            if (err) throw err;
+            //For loop here 
+            console.log(`You've added ${newDep} as a new department`);
+        })
     }
 
-    addRole() {
+    addRole(title, salary, dep_name) {
 
+        function getDepID(dep_name) {
+            const query = `SELECT id FROM department WHERE department_name = "${dep_name}"`
+            this.connection.query(query, function (err, result) {
+                if (err) throw err;
+                return result
+            })
+        }
+
+
+        const query = `INSERT INTO role (title, salary, department_id) VALUES ("${title}", "${salary}", "${getDepID(dep_name)}")`
+        this.connection.query(query, function (err, result) {
+            if (err) throw err;
+            //For loop here 
+            console.log(`You've added ${title} as a new role`);
+        })
     }
 
     addEmp() {
