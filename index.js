@@ -1,11 +1,13 @@
 const inquirer = require('inquirer');
 const { connectableObservableDescriptor } = require('rxjs/internal/observable/ConnectableObservable');
 const table = require('console.table') ;
-const DB = require('./db/index.js');
+const Hogwarts = require('./db/index.js');
 // const { inherits } = require('util');
 // const { listenerCount } = require('./db/connection.js');
 
-// const db = new DB(require('./db/connection.js'))
+const connection = require('./db/connection.js')
+
+const hogDB = new Hogwarts(connection)
 
 
 
@@ -55,7 +57,7 @@ function loadPrompt() {
                     break;
 
                 case "view employees":
-                    console.table(db.findAllEmp)
+                    console.log(hogDB.viewAllEmp()) ;
                     break;
 
                 case "update employee roles":
