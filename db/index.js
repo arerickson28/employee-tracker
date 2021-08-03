@@ -1,7 +1,6 @@
 const { connectableObservableDescriptor } = require('rxjs/internal/observable/ConnectableObservable');
 const util = require('util');
 
-// querries here
 
 class Hogwarts {
     constructor (connection) {
@@ -9,25 +8,15 @@ class Hogwarts {
     }
     
     async viewAllEmp() {
-        const query = "SELECT * FROM employee"
-        // this.connection.query(query, function (err, result) {
-        //         if (err) throw err;
-        //         //For loop here 
-        //         const resultz = result
-        //         // console.log(resultz);
-        //         return resultz
-        // })
+        const query = "SELECT * FROM employee;"
+       
         let [ans, fields] = await this.connection.execute(query);
         console.table(ans);
     }
 
     async viewAllDep() {
-        const query = "SELECT * FROM department"
-        // this.connection.query(query, function (err, result) {
-        //     if (err) throw err;
-        //     //For loop here 
-        //     console.table(result);
-        // })
+        const query = "SELECT * FROM department;"
+
         let [ans, fields] = await this.connection.execute(query)
         console.table(ans);
     }
@@ -36,20 +25,7 @@ class Hogwarts {
     async getAllDep() {
         const query = "SELECT * FROM department;"
 
-        //let f = await this.connection;
-
         let [ans, fields] = await this.connection.execute(query);
-        //let ans = await this.connection.execute(query);//, function (err, result) {
-            // if (err) throw err;
-            // //console.log(result)
-            //    return result
-        //     result.map((response) => {
-        //         return {
-        //             name: response.department_name,
-        //             value: response.id,
-        //         }
-        //     })
-        //})
 
         let ansArr = ans.map(a => {
             return {
@@ -62,7 +38,7 @@ class Hogwarts {
     }
 
     async getAllRoles() {
-        const query = "SELECT * FROM role"
+        const query = "SELECT * FROM role;"
         let [ans, fields] = await this.connection.execute(query)
 
         let ansArr = ans.map(a => {
@@ -74,24 +50,30 @@ class Hogwarts {
         return ansArr
     }
 
-    async viewAllRole() {
-        const query = "SELECT * FROM role"
+    async getAllEmp() {
+        const query = "SELECT id, CONCAT(first_name, ' ', last_name) AS name FROM employee;"
+        let [ans, fields] = await this.connection.execute(query)
 
-        //let db = await this.connection;
+        let ansArr = ans.map(a => {
+            return {
+                name: a.name,
+                value: a.id
+            }
+        });
+        return ansArr
+    }
+
+    async viewAllRole() {
+
+        const query = "SELECT * FROM role;"
 
         let [ans, fields] = await this.connection.execute(query);
-        // this.connection.query(query, function (err, result) {
-        //     if (err) throw err;
-        //     //For loop here 
-        //     console.table(result);
-        
-        // })
-        
+    
         console.table(ans);
     }
 
     addDep(newDep) {
-        const query = `INSERT INTO department (department_name) VALUES ("${newDep}")`
+        const query = `INSERT INTO department (department_name) VALUES ("${newDep}");`
         this.connection.query(query, function (err, result) {
             if (err) throw err;
             //For loop here 
@@ -101,29 +83,21 @@ class Hogwarts {
 
     async addRole(title, salary, department_id) {
 
-        // function getDepID(dep_name) {
-        //     const query = `SELECT id FROM department WHERE department_name = "${dep_name}"`
-        //     this.connection.query(query, function (err, result) {
-        //         if (err) throw err;
-        //         return result
-        //     })
-        // }
-
-        //let db = await this.connection;
-        const query = `INSERT INTO role (title, salary, department_id) VALUES ("${title}", "${salary}", "${department_id}")`
+        const query = `INSERT INTO role (title, salary, department_id) VALUES ("${title}", "${salary}", "${department_id}");`
         await this.connection.execute(query);
         console.log(`You've added ${title} as a new role`);
     }
 
     async addEmp(fist_name, last_name, role_id) {
-        const query = `INSERT INTO employee (first_name, last_name, role_id) VALUES ("${fist_name}", "${last_name}", "${role_id}")`
+        const query = `INSERT INTO employee (first_name, last_name, role_id) VALUES ("${fist_name}", "${last_name}", "${role_id}");`
         await this.connection.execute(query)
         // console.log(`You've added ${fist_name} ${last_name} as a new employee`)
 
     }
 
-    updateEmpRole() {
-
+    async updateEmpRole(newRole, employeeId) {
+        const query = `UPDATE employee SET role_id = "${newRole}" WHERE id = ${employeeId};`
+        await this.connection.execute(query)
     }
 
     updateEmpMan() {

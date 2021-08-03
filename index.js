@@ -132,8 +132,28 @@ function loadPrompt() {
                     break;
 
                 case "update employee roles":
-                    console.log("pikachu")
-                    loadPrompt()
+                    let empChoices = await hogDB.getAllEmp()
+                    let roleChoicez = await hogDB.getAllRoles()
+
+                    inquirer.prompt([
+                        {
+                            type: "list",
+                            message: "For which employee would you like update a role?",
+                            choices: empChoices,
+                            name: "empChoice"
+                        },
+                        {
+                            type: "list",
+                            message: "Which role would you like to assign this employee?",
+                            choices: roleChoicez,
+                            name: "empRole"
+                        }
+                    ]).then(data => {
+                        hogDB.updateEmpRole(data.empRole, data.empChoice)
+                        console.log(`You've assigned ${data.empChoice} the role of ${data.empRole}`)
+                        loadPrompt()
+                    })
+
                     break;
     
                 case "update employee managers":
@@ -169,49 +189,8 @@ function loadPrompt() {
                 case "EXIT EMPLOYEE TRACKER":
                     connection.end();
             }
-
-         
-        }
-        
-    )
-    
+        } 
+    ) 
 }
 
-// function testaddrole() {
-//     connection.query('SELECT * FROM department;', (err, res) => {
-//         if (err) throw err;
-
-//         inquirer.prompt([
-//             {
-//                 type: "input",
-//                 message: "What is the title of this role?",
-//                 name: "roleTitle"
-//             },
-//             {
-//                 type: "input",
-//                 message: "What is the salary for this role?",
-//                 name: "roleSalary"
-//             },
-//             {
-//                 type: "list",
-//                 message: "For which department would you like to add this role?",
-//                 choices: res.map((response) => {
-//                         return {
-//                             name: response.department_name,
-//                             value: response.id,
-//                         }
-//                     }),
-//                 name: "roleDep"
-//             }
-//         ]).then( data => {
-//             hogDB.addRole(data.roleTitle, data.roleSalary, data.roleDep)
-//             // loadPrompt()
-//     })
-
-// })
-
-// }
-
 init();
-// console.log(hogDB.getAllDep());
-// hogDB.getAllDep();
