@@ -188,7 +188,7 @@ function loadPrompt() {
                     inquirer.prompt([
                         {
                             type: "list",
-                            message: "Which role would you like to delte?",
+                            message: "Which role would you like to delete?",
                             choices: roleOptions,
                             name: "delRole"
                         }
@@ -200,8 +200,20 @@ function loadPrompt() {
                     break;
     
                 case "delete employees":
-                    console.log("pikachu");
-                    loadPrompt()
+                    let empOptions = await hogDB.getAllEmp();
+
+                    inquirer.prompt([
+                        {
+                            type: "list",
+                            message: "Which employee would you like to delete?",
+                            choices: empOptions,
+                            name: "delEmp"
+                        }
+                    ]).then( async data => {
+                        await hogDB.delEmp(data.delEmp)
+                        loadPrompt()
+                    })
+                    
                     break;
 
                 case "view budget utilization by department":

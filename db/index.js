@@ -117,8 +117,9 @@ class Hogwarts {
         await this.connection.execute(query)
     }
 
-    delEmp() {
-
+    async delEmp(empId) {
+        const query = `DELETE FROM employee WHERE id = ${empId};`
+        await this.connection.execute(query)
     }
 
     viewBudUseByDep() {
