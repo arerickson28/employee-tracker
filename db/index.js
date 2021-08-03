@@ -72,13 +72,12 @@ class Hogwarts {
         console.table(ans);
     }
 
-    addDep(newDep) {
+    async addDep(newDep) {
         const query = `INSERT INTO department (department_name) VALUES ("${newDep}");`
-        this.connection.query(query, function (err, result) {
-            if (err) throw err;
-            //For loop here 
-            console.log(`You've added ${newDep} as a new department`);
-        })
+        
+        await this.connection.execute(query)
+    
+        console.log(`You've added ${newDep} as a new department`);
     }
 
     async addRole(title, salary, department_id) {
@@ -112,8 +111,9 @@ class Hogwarts {
 
     }
 
-    delRole() {
-
+    async delRole(roleId) {
+        const query = `DELETE FROM role WHERE id = ${roleId}`
+        await this.connection.execute(query)
     }
 
     delEmp() {

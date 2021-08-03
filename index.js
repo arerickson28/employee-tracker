@@ -48,9 +48,9 @@ function loadPrompt() {
                             name: "newDep"
                         }
                     ]).then(
-                        (res) => {
+                        async (res) => {
                             console.log(res.newDep)
-                            hogDB.addDep(res.newDep)
+                            await hogDB.addDep(res.newDep)
                             loadPrompt()
                         }
                     )
@@ -77,8 +77,8 @@ function loadPrompt() {
                             choices: departmentChoices,
                             name: "roleDep"
                         }
-                    ]).then( data => {
-                        hogDB.addRole(data.roleTitle, data.roleSalary, data.roleDep)
+                    ]).then( async data => {
+                        await hogDB.addRole(data.roleTitle, data.roleSalary, data.roleDep)
                         // console.log(`You've added ${data.roleTitle} as a new roleee!`)
                         loadPrompt()
                     })
@@ -106,8 +106,8 @@ function loadPrompt() {
                             choices: roleChoices,
                             name: "empRole"
                         }
-                    ]).then( data => {
-                        hogDB.addEmp(data.empFirst, data.empLast, data.empRole)
+                    ]).then( async data => {
+                        await hogDB.addEmp(data.empFirst, data.empLast, data.empRole)
                         console.log(`You've added ${data.empFirst} ${data.empLast} as a new employee!`)
                         loadPrompt()
                     })
@@ -116,18 +116,18 @@ function loadPrompt() {
                     break;
                     
                 case "view departments":
-                    hogDB.viewAllDep();
+                    await hogDB.viewAllDep();
                     loadPrompt()
                   
                     break;
 
                 case "view roles":
-                    hogDB.viewAllRole();
+                    await hogDB.viewAllRole();
                     loadPrompt()
                     break;
 
                 case "view employees":
-                    hogDB.viewAllEmp();
+                    await hogDB.viewAllEmp();
                     loadPrompt();
                     break;
 
@@ -148,8 +148,8 @@ function loadPrompt() {
                             choices: roleChoicez,
                             name: "empRole"
                         }
-                    ]).then(data => {
-                        hogDB.updateEmpRole(data.empRole, data.empChoice)
+                    ]).then(async data => {
+                        await hogDB.updateEmpRole(data.empRole, data.empChoice)
                         console.log(`You've assigned ${data.empChoice} the role of ${data.empRole}`)
                         loadPrompt()
                     })
@@ -172,8 +172,20 @@ function loadPrompt() {
                     break;
     
                 case "delete roles":
-                    console.log("pikachu")
-                    loadPrompt()
+                    let roleOptions = await hogDB.getAllRoles();
+
+                    inquirer.prompt([
+                        {
+                            type: "list",
+                            message: "Which role would you like to delte??",
+                            choices: roleOptions,
+                            name: "delRole"
+                        }
+                    ]).then(async data => {
+                        await hogDB.delRole(data.delRole)
+                        loadPrompt()
+                    })
+                    
                     break;
     
                 case "delete employees":
