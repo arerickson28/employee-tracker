@@ -167,8 +167,19 @@ function loadPrompt() {
                     break;
                         
                 case "delete departments":
-                    console.log("pikachu")
-                    loadPrompt()
+                    let depOptions = await hogDB.getAllDep();
+                    inquirer.prompt([
+                        {
+                            type: "list",
+                            message: "Which department would you like to delete?",
+                            choices: depOptions,
+                            name: "delDep"
+                        }
+                    ]).then(async data => {
+                        await hogDB.delDep(data.delDep)
+                        loadPrompt()
+                    })
+                    
                     break;
     
                 case "delete roles":
@@ -177,7 +188,7 @@ function loadPrompt() {
                     inquirer.prompt([
                         {
                             type: "list",
-                            message: "Which role would you like to delte??",
+                            message: "Which role would you like to delte?",
                             choices: roleOptions,
                             name: "delRole"
                         }

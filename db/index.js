@@ -107,12 +107,13 @@ class Hogwarts {
 
     }
 
-    delDep() {
-
+    async delDep(depId) {
+        const query = `DELETE FROM department WHERE id = ${depId};`
+        await this.connection.execute(query)
     }
 
     async delRole(roleId) {
-        const query = `DELETE FROM role WHERE id = ${roleId}`
+        const query = `DELETE FROM role WHERE id = ${roleId};`
         await this.connection.execute(query)
     }
 
