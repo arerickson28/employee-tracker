@@ -95,12 +95,13 @@ class Hogwarts {
     }
 
     async updateEmpRole(newRole, employeeId) {
-        const query = `UPDATE employee SET role_id = "${newRole}" WHERE id = ${employeeId};`
+        const query = `UPDATE employee SET role_id = ${newRole} WHERE id = ${employeeId};`
         await this.connection.execute(query)
     }
 
-    updateEmpMan() {
-
+    async updateEmpMan(newManager, employeeId) {
+        const query = `UPDATE employee SET manager_id = ${newManager} WHERE id = ${employeeId};`
+        await this.connection.execute(query)
     }
     
     viewEmpByMan() {

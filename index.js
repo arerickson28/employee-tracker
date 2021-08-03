@@ -31,7 +31,7 @@ function loadPrompt() {
         {
             type: "list",
             message: "what do you want to do?",
-            choices: ["add departments", "add roles", "add employees", "view departments", "view roles", "view employees", "update employee roles", "update employee mangers", "view employees by manager", "delete departments", "delete roles", "delete employees", "view budget utilization by department", "EXIT EMPLOYEE TRACKER"],
+            choices: ["add departments", "add roles", "add employees", "view departments", "view roles", "view employees", "update employee roles", "update employee managers", "view employees by manager", "delete departments", "delete roles", "delete employees", "view budget utilization by department", "EXIT EMPLOYEE TRACKER"],
             name: "my_query"
         }
     ]).then(
@@ -157,8 +157,26 @@ function loadPrompt() {
                     break;
     
                 case "update employee managers":
-                    console.log("pikachu")
-                    loadPrompt()
+                    let empOptionz = await hogDB.getAllEmp();
+
+                    inquirer.prompt([
+                        {
+                            type: "list",
+                            message: "For which employee would you like to update the manager?",
+                            choices: empOptionz,
+                            name: "empId"
+                        },
+                        {
+                            type: "list",
+                            message: "Which employee would you like to set as manager for this employee?",
+                            choices: empOptionz,
+                            name: "managerId"
+                        }
+                    ]).then(async data => {
+                        await hogDB.updateEmpMan(data.managerId, data.empId);
+                        loadPrompt()
+                    })
+                    
                     break;
                 
                 case "view employees by manager":
