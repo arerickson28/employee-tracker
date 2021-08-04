@@ -38,15 +38,16 @@ class Hogwarts {
     }
 
     async getAllRoles() {
-        const query = "SELECT * FROM role;"
+        const query = "SELECT role.id, CONCAT(title, '--', department_name) AS tytle FROM role LEFT JOIN department ON role.department_id = department.id;"
         let [ans, fields] = await this.connection.execute(query)
-
+        // console.table(ans)
         let ansArr = ans.map(a => {
             return {
-                name: a.title,
+                name: a.tytle,
                 value: a.id
             }
         });
+        // console.log(ansArr)
         return ansArr
     }
 
