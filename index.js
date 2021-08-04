@@ -10,8 +10,6 @@ const { load } = require('dotenv');
 
 let hogDB
 
-
-
 async function init() {
     let pdb = await connection;
     hogDB = new Hogwarts(pdb)
@@ -21,9 +19,6 @@ async function init() {
     console.log(logo(config).render());
     // call function to load prompts
     loadPrompt();
-
-    
-    //
 }
 
 function loadPrompt() {
@@ -31,7 +26,7 @@ function loadPrompt() {
         {
             type: "list",
             message: "what do you want to do?",
-            choices: ["add departments", "add roles", "add employees", "view departments", "view roles", "view employees", "update employee roles", "update employee managers", "view employees by manager", "delete departments", "delete roles", "delete employees", "view budget utilization by department", "EXIT EMPLOYEE TRACKER"],
+            choices: ["add departments", "add roles", "add employees", "view departments", "view roles", "view employees", "update employee roles", "update employee managers", "delete departments", "delete roles", "delete employees", "EXIT EMPLOYEE TRACKER"],
             name: "my_query"
         }
     ]).then(
@@ -52,8 +47,8 @@ function loadPrompt() {
                             console.log(res.newDep)
                             await hogDB.addDep(res.newDep)
                             loadPrompt()
-                        }
-                    )
+                        })
+
                     break;
 
                 case "add roles":
@@ -83,7 +78,6 @@ function loadPrompt() {
                         loadPrompt()
                     })
                 
-                    
                     break;
 
                 case "add employees":
@@ -112,7 +106,6 @@ function loadPrompt() {
                         loadPrompt()
                     })
                     
-                    
                     break;
                     
                 case "view departments":
@@ -124,11 +117,13 @@ function loadPrompt() {
                 case "view roles":
                     await hogDB.viewAllRole();
                     loadPrompt()
+
                     break;
 
                 case "view employees":
                     await hogDB.viewAllEmp();
                     loadPrompt();
+                    
                     break;
 
                 case "update employee roles":
@@ -179,10 +174,10 @@ function loadPrompt() {
                     
                     break;
                 
-                case "view employees by manager":
-                    console.log("pikachu")
-                    loadPrompt()
-                    break;
+                // case "view employees by manager":
+                //     console.log("pikachu")
+                //     loadPrompt()
+                //     break;
                         
                 case "delete departments":
                     let depOptions = await hogDB.getAllDep();
@@ -234,13 +229,14 @@ function loadPrompt() {
                     
                     break;
 
-                case "view budget utilization by department":
-                    console.log("whoohoo")
-                    loadPrompt()
-                    break;
+                // case "view budget utilization by department":
+                //     console.log("whoohoo")
+                //     loadPrompt()
+                //     break;
 
                 case "EXIT EMPLOYEE TRACKER":
-                    connection.end();
+                    let c = await connection;
+                    c.end();
             }
         } 
     ) 

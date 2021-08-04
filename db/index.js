@@ -8,7 +8,7 @@ class Hogwarts {
     }
     
     async viewAllEmp() {
-        const query = "SELECT * FROM employee;"
+        const query = "SELECT employee.id, first_name, last_name, title, salary, department_name, manager_id FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id;"
        
         let [ans, fields] = await this.connection.execute(query);
         console.table(ans);
@@ -65,7 +65,7 @@ class Hogwarts {
 
     async viewAllRole() {
 
-        const query = "SELECT * FROM role;"
+        const query = "SELECT title, salary, department_name FROM role LEFT JOIN department on role.department_id = department.id;"
 
         let [ans, fields] = await this.connection.execute(query);
     
@@ -104,9 +104,9 @@ class Hogwarts {
         await this.connection.execute(query)
     }
     
-    viewEmpByMan() {
+    // viewEmpByMan() {
 
-    }
+    // }
 
     async delDep(depId) {
         const query = `DELETE FROM department WHERE id = ${depId};`
@@ -123,9 +123,9 @@ class Hogwarts {
         await this.connection.execute(query)
     }
 
-    viewBudUseByDep() {
+    // viewBudUseByDep() {
 
-    }
+    // }
 }
 
 module.exports = Hogwarts ;
